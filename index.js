@@ -2,7 +2,7 @@ const fs = require('fs')
 const inlineCss = require('inline-css')
 const moment = require('moment')
 const sass = require('node-sass')
-const minify = require('html-minifier').minify;
+const minify = require('html-minifier').minify
 
 module.exports = async (tweet, bg = 'default') => {
     // Localization settings
@@ -14,7 +14,7 @@ module.exports = async (tweet, bg = 'default') => {
     let style_form = fs.readFileSync('form/style.scss', 'utf-8')
     style_form = style_form.replace('\'%FONT%\'', locale[lang] ? locale[lang].font : locale.en.font)
     style_form = style_form.replace('%BG%', bg)
-    const style = sass.renderSync({ data: style_form });
+    const style = sass.renderSync({ data: style_form })
 
     // Loading constant data
     const verified = fs.readFileSync('form/verified.html', 'utf-8')
@@ -70,7 +70,7 @@ module.exports = async (tweet, bg = 'default') => {
         const ref_created_at = moment(ref_tweet.created_at)
         const ref_text = ref_tweet.text.replace(/ https?:\/\/t.co\/[a-zA-Z0-9]*$/, '')
         const ref_text_tagged = ref_text   .replace(/\n/g, '<br />')
-        const ref_link = `https://twitter.com/${ref_author.username}/status/${ref_tweet.id}`;
+        const ref_link = `https://twitter.com/${ref_author.username}/status/${ref_tweet.id}`
 
         // Loading the reference tweet form
         let include_ref = fs.readFileSync('form/include/tweet/tweet.html', 'utf-8')
@@ -106,8 +106,19 @@ module.exports = async (tweet, bg = 'default') => {
     const html_includes = includes.join('')
     main = main.replace('%INCLUDES%', html_includes)
 
-    const html_inline_style = await inlineCss(main, { extraCss: style.css, url: '/' })
-    const html = minify(html_inline_style);
+    const html_inline_style = await inlineCss(main, {
+        url: '/',
+        extraCss: style.css,
+        removeHtmlSelectors: true
+    })
+    const html = minify(html_inline_style, {
+        collapseWhitespace: true,
+        decodeEntities: true,
+        minifyCSS: true,
+        processConditionalComments: true,
+        removeAttributeQuotes: true,
+        sortAttributes: true
+    })
 
     return html
 }
