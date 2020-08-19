@@ -1,0 +1,44 @@
+{
+    "en" : {
+        "font": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Ubuntu, \"Helvetica Neue\", sans-serif",
+        "datetime": {
+            "LT": "LT",
+            "ll": "ll",
+            "lmd": "MMM D"
+        },
+        "include": {
+            "image": "Show this photo",
+            "video": "Show this video",
+            "poll": "Show this poll",
+            "media": "Show this media"
+        }
+    },
+    "ko" : {
+        "font": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Ubuntu, \"Helvetica Neue\", sans-serif",
+        "datetime": {
+            "LT": "LT",
+            "ll": "ll",
+            "lmd": "MMM Do"
+        },
+        "include": {
+            "image": "이 사진 표시하기",
+            "video": "이 동영상 표시하기",
+            "poll": "이 투표 표시하기",
+            "media": "이 미디어 표시하기"
+        }
+    },
+    "ja" : {
+        "font": "\"Segoe UI\", Meiryo, system-ui, -apple-system, BlinkMacSystemFont, sans-serif",
+        "datetime": {
+            "LT": "ah:mm",
+            "ll": "ll",
+            "lmd": "MMMDo"
+        },
+        "include": {
+            "image": "この画像を表示",
+            "video": "この動画を表示",
+            "poll": "この投票を表示",
+            "media": "この画像/動画を表示"
+        }
+    }
+}

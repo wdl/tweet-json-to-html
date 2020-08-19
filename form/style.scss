@@ -1,0 +1,192 @@
+$bg: '%BG%';
+$font: '%FONT%';
+
+$background-color: rgb(255, 255, 255);
+$border-color: rgb(230, 236, 240);
+$text-color: rgb(20, 23, 26);
+$verified-color: rgba(29, 161, 242, 1.00);
+$info-color: rgb(101, 119, 134);
+$href-color: rgb(27, 149, 224);
+@if $bg == 'dim' {
+    $background-color: rgb(21, 32, 43);
+    $border-color: rgb(56, 68, 77);
+    $text-color: rgb(255, 255, 255);
+    $info-color: rgb(136, 153, 166);
+} @else if $bg == 'lights-out' {
+    $background-color: rgb(0, 0, 0);
+    $border-color: rgb(47, 51, 54);
+    $text-color: rgba(217, 217, 217, 1.00);
+    $info-color: rgb(110, 118, 125);
+}
+
+a {
+    color: $href-color;
+    text-decoration: none;
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+article.main {
+    width: 598px;
+    font-family: $font;
+    background-color: $background-color;
+    border: {
+        width: 1px;
+        style: solid;
+        color: $border-color;
+    }
+    & > div {
+        width: 568px;
+        padding: 0 15px;
+        & > header {
+            height: 49px;
+            margin: 10px 0 5px 0;
+            & > div {
+                float: left;
+            }
+            & > .profile_image {
+                margin-right: 10px;
+                & > img {
+                    width: 49px;
+                    height: 49px;
+                    border-radius: 50%;
+                }
+            }
+            & > .profile {
+                width: 509px;
+                & > div {
+                    margin-top: 3.8px;
+                    & > .names {
+                        & > div {
+                            display: inline-block;
+                        }
+                        & > .name {
+                            font: {
+                                size: 15px;
+                                weight: bold;
+                            }
+                            color: $text-color;
+                        }
+                        & > .verified {
+                            margin-left: 2px;
+                            vertical-align: text-bottom;
+                            width: 18.75px;
+                            height: 18.75px;
+                            & > svg {
+                                color: if($bg == 'default', $verified-color, $text-color);
+                                fill: currentcolor;
+                            }
+                        }
+                    }
+                    & > .username {
+                        font-size: 15px;
+                        font-weight: 400;
+                        color: $info-color;
+                        line-height: 19.3px;
+                    }
+                }
+            }
+        }
+        & > main {
+            margin-top: 15px;
+            font-size: 23px;
+            color: $text-color;
+            line-height: 1.3125;
+            white-space: pre-wrap;
+        }
+        & > article.include {
+            width: 566px;
+            margin-top: 10px;
+            border: {
+                width: 1px;
+                style: solid;
+                color: rgb(204, 214, 221);
+                radius: 15px;
+            }
+            overflow: hidden;
+            & > * {
+                vertical-align: bottom;
+            }
+            & > .image_1 {
+                & > img {
+                    width: 100%;
+                    vertical-align: bottom;
+                }
+            }
+            & > .image_2 {
+            }
+            & > .image_3 {
+            }
+            & > .image_4 {
+            }
+            & > .video {
+            }
+            & > .poll {
+            }
+            & > .tweet {
+                display: block;
+                padding: 10px;
+                & > header {
+                    height: 20px;
+                    & > div {
+                        float: left;
+                    }
+                    & > .profile_image {
+                        margin-right: 5px;
+                        & > img {
+                            width: 20px;
+                            height: 20px;
+                            border-radius: 50%;
+                        }
+                    }
+                    & > .profile {
+                        & > div {
+                            float: left;
+                        }
+                        & > .name {
+                            font-size: 15px;
+                            font-weight: bold;
+                            color: $text-color;
+                        }
+                        & > .verified {
+                            margin-left: 2px;
+                            vertical-align: text-bottom;
+                            width: 18.75px;
+                            height: 18.75px;
+                            & > svg {
+                                color: $verified-color;
+                                fill: currentcolor;
+                            }
+                        }
+                        & > .username {
+                            font-size: 15px;
+                            margin-left: 5px;
+                            color: $info-color;
+                        }
+                        & > .date {
+                            font-size: 15px;
+                            color: $info-color;
+                        }
+                    }
+                }
+                & > main {
+                    margin-top: 5px;
+                    font-size: 15px;
+                    color: $text-color;
+                    line-height: 1.3125;
+                    white-space: pre-wrap;
+                    & > footer {
+                        color: $href-color;
+                        margin-top: 5px;
+                    }
+                }
+            }
+        }
+        & > footer {
+            margin: 15px 0;
+            color: $info-color;
+            font-size: 15px;
+        }
+    }
+}
