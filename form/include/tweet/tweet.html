@@ -1,0 +1,74 @@
+<style>
+    header {
+        height: 20px;
+        margin: 10px 10px 0 10px;
+    }
+    header > div {
+        float: left;
+    }
+
+    .profile_image {
+        margin-right: 5px;
+    }
+    .profile_image > img {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+    }
+
+    .profile > div {
+        float: left;
+    }
+    .profile .name {
+        font-size: 15px;
+        font-weight: bold;
+        color: rgb(20, 23, 26);
+    }
+    .profile .verified {
+        margin-left: 2px;
+        vertical-align: text-bottom;
+        width: 18.75px;
+        height: 18.75px;
+    }
+    .profile .verified > svg {
+        color: rgba(29, 161, 242, 1.00);
+        fill: currentcolor;
+    }
+    .background-dim .profile .verified > svg {
+        color: rgb(255, 255, 255) !important;
+    }
+    .background-lights-out .profile .verified > svg {
+        color: rgba(217, 217, 217, 1.00) !important;
+    }
+    .profile .username {
+        font-size: 15px;
+        margin-left: 5px;
+        color: rgb(101, 119, 134);
+    }
+    .profile .date {
+        font-size: 15px;
+        color: rgb(101, 119, 134);
+    }
+
+    main {
+        margin: 5px 10px 10px 10px;
+        font-size: 15px;
+        color: rgb(20, 23, 26);
+        line-height: 1.3125;
+        white-space: pre-wrap;
+    }
+</style>
+<div class="%ARTICLE_BG_CLASS%">
+    <header>
+        <div class="profile_image">
+            <img src="%PROFILE_IMAGE%" />
+        </div>
+        <div class="profile">
+            <div class="name">%NAME%</div>%VERIFIED%
+            <div class="username">%USER_NAME%</div>
+            <div>&nbsp;·&nbsp;</div>
+            <div class="date">%DATE%</div>
+        </div>
+    </header>
+    <main>%TEXT%</main>
+</div>
