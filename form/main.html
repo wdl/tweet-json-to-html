@@ -1,0 +1,146 @@
+<style>
+    article {
+        width: 598px;
+        font: 14px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu, "Helvetica Neue", sans-serif;
+        background-color: rgb(255, 255, 255);
+        border-width: 1px;
+        border-style: solid;
+        border-color: rgb(230, 236, 240);
+    }
+    article.background-dim {
+        background-color: rgb(21, 32, 43);
+        border-color: rgb(56, 68, 77);
+    }
+    article.background-lights-out {
+        background-color: rgb(0, 0, 0);
+        border-color: rgb(47, 51, 54);
+    }
+
+    a {
+        color: rgb(27, 149, 224);
+        text-decoration: none;
+    }
+    a:hover {
+        text-decoration: underline;
+    }
+
+    article > div {
+        width: 568px;
+        padding: 0 15px;
+    }
+
+    header {
+        height: 49px;
+        margin: 10px 0 5px 0;
+    }
+    header > div {
+        float: left;
+    }
+
+    .profile_image {
+        margin-right: 10px;
+    }
+    .profile_image > img {
+        width: 49px;
+        height: 49px;
+        border-radius: 50%;
+    }
+
+    .profile {
+        width: 509px;
+    }
+    .profile > div {
+        margin-top: 3.8px;
+    }
+    .profile .names > div {
+        display: inline-block;
+    }
+    .profile .names > .name {
+        font-size: 15px;
+        font-weight: bold;
+        color: rgb(20, 23, 26);
+    }
+    .background-dim .profile .names > .name {
+        color: rgb(255, 255, 255) !important;
+    }
+    .background-lights-out .profile .names > .name {
+        color: rgba(217, 217, 217, 1.00) !important;
+    }
+    .profile .names > .verified {
+        margin-left: 2px;
+        vertical-align: text-bottom;
+        width: 18.75px;
+        height: 18.75px;
+    }
+    .profile .names > .verified > svg {
+        color: rgba(29, 161, 242, 1.00);
+        fill: currentcolor;
+    }
+    .background-dim .profile .names > .verified > svg {
+        color: rgb(255, 255, 255) !important;
+    }
+    .background-lights-out .profile .names > .verified > svg {
+        color: rgba(217, 217, 217, 1.00) !important;
+    }
+
+    .profile .username {
+        font-size: 15px;
+        font-weight: 400;
+        color: rgb(101, 119, 134);
+        line-height: 19.3px;
+    }
+    .background-dim .profile .username {
+        color: rgb(136, 153, 166) !important;
+    }
+    .background-lights-out .profile .username {
+        color: rgb(110, 118, 125) !important;
+    }
+
+    main {
+        margin-top: 15px;
+        font-size: 23px;
+        color: rgb(20, 23, 26);
+        line-height: 1.3125;
+        white-space: pre;
+    }
+    .background-dim main {
+        color: rgb(255, 255, 255) !important;
+    }
+    .background-lights-out main {
+        color: rgba(217, 217, 217, 1.00) !important;
+    }
+
+    footer {
+        margin: 15px 0;
+        color: rgb(101, 119, 134);
+        font-size: 15px;
+    }
+    .background-dim footer {
+        color: rgb(136, 153, 166) !important;
+    }
+    .background-lights-out footer {
+        color: rgb(110, 118, 125) !important;
+    }
+</style>
+<article class="%ARTICLE_BG_CLASS%">
+    <div>
+        <header>
+            <div class="profile_image">
+                <img src="%PROFILE_IMAGE%" />
+            </div>
+            <div class="profile">
+                <div>
+                    <div class="names">
+                        <div class="name">%NAME%</div><div class="verified">
+                            <svg viewBox="0 0 24 24" aria-label="인증된 계정"><g><path d="M22.5 12.5c0-1.58-.875-2.95-2.148-3.6.154-.435.238-.905.238-1.4 0-2.21-1.71-3.998-3.818-3.998-.47 0-.92.084-1.336.25C14.818 2.415 13.51 1.5 12 1.5s-2.816.917-3.437 2.25c-.415-.165-.866-.25-1.336-.25-2.11 0-3.818 1.79-3.818 4 0 .494.083.964.237 1.4-1.272.65-2.147 2.018-2.147 3.6 0 1.495.782 2.798 1.942 3.486-.02.17-.032.34-.032.514 0 2.21 1.708 4 3.818 4 .47 0 .92-.086 1.335-.25.62 1.334 1.926 2.25 3.437 2.25 1.512 0 2.818-.916 3.437-2.25.415.163.865.248 1.336.248 2.11 0 3.818-1.79 3.818-4 0-.174-.012-.344-.033-.513 1.158-.687 1.943-1.99 1.943-3.484zm-6.616-3.334l-4.334 6.5c-.145.217-.382.334-.625.334-.143 0-.288-.04-.416-.126l-.115-.094-2.415-2.415c-.293-.293-.293-.768 0-1.06s.768-.294 1.06 0l1.77 1.767 3.825-5.74c.23-.345.696-.436 1.04-.207.346.23.44.696.21 1.04z"></path></g></svg></div>
+                    </div>
+                    <div class="username">%USER_NAME%</div>
+                </div>
+            </div>
+        </header>
+        <main>%TEXT%</main>
+        <footer>
+            %TIME% · %DATE%
+        </footer>
+    </div>
+</article>
