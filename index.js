@@ -8,24 +8,28 @@ module.exports = async (tweet, bg = 'default') => {
     // Localization settings
     const lang = tweet.data.lang
     moment.locale(lang)
-    const locale = JSON.parse(fs.readFileSync('lang.json', 'utf-8'))
+    const locales = JSON.parse(fs.readFileSync('lang.json', 'utf-8'))
+    const locale = locales[lang] ? locales[lang] : locales.en
 
     // Preparing the style sheet
     let style_form = fs.readFileSync('form/style.scss', 'utf-8')
-    style_form = style_form.replace('\'%FONT%\'', locale[lang] ? locale[lang].font : locale.en.font)
+    style_form = style_form.replace('\'%FONT%\'', locale.font)
     style_form = style_form.replace('%BG%', bg)
     const style = sass.renderSync({ data: style_form })
 
     // Loading constant data
     const verified = fs.readFileSync('form/verified.html', 'utf-8')
+    const play = fs.readFileSync('form/play.html', 'utf-8')
 
     // Arranging main tweet data
     const author = tweet.includes.users.find(o => o.id === tweet.data.author_id)
     const created_at = moment(tweet.data.created_at)
     const text = tweet.data.text.replace(/ https?:\/\/t.co\/[a-zA-Z0-9]*$/, '')
-    const text_tagged = text    .replace(/(https?:\/\/)([^\s]+)/g, '<a href="$&">$2</a>')
-                                .replace(/#([^\s]+)/g, '<a href="https://twitter.com/hashtag/$1?src=hashtag_click">#$1</a>')
+    const text_tagged = text    .replace(/(https?:\/\/)([^\s]+)/g, '<a href="$&" target="_blank">$2</a>')
+                                .replace(/(?<=\s)#([^\s]+)/g, '<a href="https://twitter.com/hashtag/$1?src=hashtag_click" target="_blank">#$1</a>')
+                                .replace(/(?<=\s)@([^\s]+)/g, '<a href="https://twitter.com/$1" target="_blank">@$1</a>')
                                 .replace(/\n/g, '<br />')
+    const link = `https://twitter.com/${author.username}/status/${tweet.data.id}`
 
     // Loading the main tweet form
     let main = fs.readFileSync('form/main.html', 'utf-8')
@@ -34,10 +38,11 @@ module.exports = async (tweet, bg = 'default') => {
     main = main.replace('%PROFILE_IMAGE%', author.profile_image_url)
     main = main.replace('%NAME%', author.name)
     main = author.verified ? main.replace('%VERIFIED%', verified) : main.replace('%VERIFIED%', '')
-    main = main.replace('%USER_NAME%', author.username.includes('@') ? author.username : '@' + author.username)
+    main = main.replace('%USER_NAME%', '@' + author.username)
     main = main.replace('%TEXT%', text_tagged)
-    main = main.replace('%TIME%', created_at.format(locale[lang] ? locale[lang].datetime.LT : 'LT'))
-    main = main.replace('%DATE%', created_at.format(locale[lang] ? locale[lang].datetime.ll : 'll'))
+    main = main.replace('%TIME%', created_at.format(locale.datetime.LT))
+    main = main.replace('%DATE%', created_at.format(locale.datetime.ll))
+    main = main.replace('%SOURCE%', tweet.data.source)
 
     //
     let includes = []
@@ -52,12 +57,63 @@ module.exports = async (tweet, bg = 'default') => {
         let include_img = fs.readFileSync(`form/include/media/image_${img_cnt}.html`, 'utf-8')
 
         // Filling data in the form
+        include_img = include_img.replace('%LINK%', link)
         for(let i = 1; i <= img_cnt; i++) {
-            include_img = include_img.replace(`%IMAGE_URL_${img_cnt}%`, tweet.includes.media[i - 1].url)
+            include_img = include_img.replace(`%IMAGE_URL_${i}%`, tweet.includes.media[i - 1].url)
         }
 
         const html_include_img =  include_form.replace('%INCLUDE%', include_img)
         includes.push(html_include_img)
+    }
+
+    // Check if video exists
+    if(tweet.includes.media && tweet.includes.media[0].type === 'video') {
+        // Loading the video form
+        let include_video = fs.readFileSync(`form/include/media/video.html`, 'utf-8')
+
+        // Filling data in the form
+        include_video = include_video.replace('%LINK%', link)
+        include_video = include_video.replace(`%PREVIEW_IMAGE_URL%`, tweet.includes.media[0].preview_image_url)
+        include_video = include_video.replace('%PLAY%', play)
+
+        const html_include_video =  include_form.replace('%INCLUDE%', include_video)
+        includes.push(html_include_video)
+    }
+
+    // Check if poll exists
+    if(tweet.includes.polls) {
+        // Check status of poll
+        const poll_status = tweet.includes.polls[0].voting_status
+
+        // Loading the poll form
+        let include_poll = fs.readFileSync(`form/include/poll/poll_${poll_status}.html`, 'utf-8')
+        const include_poll_option = fs.readFileSync(`form/include/poll/poll_${poll_status}_option.html`, 'utf-8')
+
+        // Arranging poll data
+        const option_cnt = tweet.includes.polls[0].options.length
+        const votes_all = tweet.includes.polls[0].options.reduce((a, c) => { return a + c.votes }, 0)
+        const votes_max = tweet.includes.polls[0].options.reduce((a, c) => { return c.votes > a ? c.votes : a }, 0)
+
+        // Filling data in the form
+        let include_poll_options = []
+        for(let i = 1; i <= option_cnt; i++) {
+            const this_option = tweet.includes.polls[0].options[i - 1]
+            const this_option_percent = `${Math.round(this_option.votes / votes_all * 1000) / 10}%`
+
+            let include_poll_this_option = include_poll_option
+            include_poll_this_option = include_poll_this_option.replace(/\%LINK\%/g, link)
+            include_poll_this_option = include_poll_this_option.replace(`%IS_TOP_OPTION%`, this_option.votes === votes_max ? 'top' : '')
+            include_poll_this_option = include_poll_this_option.replace(`%POLL_OPTION_LABEL%`, this_option.label)
+            include_poll_this_option = include_poll_this_option.replace(`%POLL_OPTION_PERCENT%`, this_option_percent)
+            include_poll_this_option = include_poll_this_option.replace(`'%POLL_OPTION_BG_WIDTH%'`, this_option_percent)
+
+            include_poll_options.push(include_poll_this_option)
+        }
+        include_poll = include_poll.replace('%POLL_OPTIONS%', include_poll_options.join(''))
+        include_poll = include_poll.replace('%VOTES_ALL%', locale.poll.unit.replace('%NUM%', votes_all))
+        include_poll = include_poll.replace('%POLL_CLOSED%', locale.poll.closed)
+
+        includes.push(include_poll)
     }
 
     // Check if reference tweet exist
@@ -82,18 +138,18 @@ module.exports = async (tweet, bg = 'default') => {
         include_ref = ref_author.verified ? include_ref.replace('%VERIFIED%', verified) : include_ref.replace('%VERIFIED%', '')
         include_ref = include_ref.replace('%USER_NAME%', ref_author.username.includes('@') ? ref_author.username : '@' + ref_author.username)
         include_ref = include_ref.replace('%TEXT%', ref_text_tagged)
-        include_ref = include_ref.replace('%DATE%', ref_created_at.format(locale[lang] ? locale[lang].datetime.lmd : 'll'))
+        include_ref = include_ref.replace('%DATE%', ref_created_at.format(locale.datetime.lmd))
         if(ref_tweet.attachments) {
             if(ref_tweet.attachments.media_keys) {
                 if(ref_tweet.attachments.media_keys.length > 1 || ref_tweet.attachments.media_keys[0].split('_')[0] === '3') {
-                    include_ref = include_ref.replace('%ATTACHMENT%', locale[lang] ? locale[lang].include['image'] : locale.en.include['image'])
+                    include_ref = include_ref.replace('%ATTACHMENT%', locale.include['image'])
                 } else if(ref_tweet.attachments.media_keys[0].split('_')[0] === '7') {
-                    include_ref = include_ref.replace('%ATTACHMENT%', locale[lang] ? locale[lang].include['video'] : locale.en.include['video'])
+                    include_ref = include_ref.replace('%ATTACHMENT%', locale.include['video'])
                 } else {
-                    include_ref = include_ref.replace('%ATTACHMENT%', locale[lang] ? locale[lang].include['media'] : locale.en.include['media'])
+                    include_ref = include_ref.replace('%ATTACHMENT%', locale.include['media'])
                 }
             } else if(ref_tweet.attachments.poll_ids) {
-                include_ref = include_ref.replace('%ATTACHMENT%', locale[lang] ? locale[lang].include['poll'] : locale.en.include['poll'])
+                include_ref = include_ref.replace('%ATTACHMENT%', locale.include['poll'])
             }
         } else {
             include_ref = include_ref.replace('%ATTACHMENT%', '')
@@ -122,165 +178,3 @@ module.exports = async (tweet, bg = 'default') => {
 
     return html
 }
-
-// test code
-(async () => {
-    const json = {
-        "data": {
-            "source": "Twitter for iPhone",
-            "possibly_sensitive": false,
-            "lang": "ja",
-            "created_at": "2020-08-15T11:35:55.000Z",
-            "text": "衣装はこちら！\n投票は5分間です！\n投票結果は、配信でチェックしてね😆\n#セリコソロ https://t.co/JIO3VzZ2je https://t.co/L7GI2tNdhq",
-            "referenced_tweets": [
-                {
-                    "type": "quoted",
-                    "id": "1294598539436150793"
-                }
-            ],
-            "id": "1294598694847647746",
-            "entities": {
-                "urls": [
-                    {
-                        "start": 43,
-                        "end": 66,
-                        "url": "https://t.co/JIO3VzZ2je",
-                        "expanded_url": "https://twitter.com/iRis_s_yu/status/1294598539436150793",
-                        "display_url": "twitter.com/iRis_s_yu/stat…"
-                    },
-                    {
-                        "start": 67,
-                        "end": 90,
-                        "url": "https://t.co/L7GI2tNdhq",
-                        "expanded_url": "https://twitter.com/iRis_s_yu/status/1294598694847647746/photo/1",
-                        "display_url": "pic.twitter.com/L7GI2tNdhq"
-                    }
-                ],
-                "hashtags": [
-                    {
-                        "start": 36,
-                        "end": 42,
-                        "tag": "セリコソロ"
-                    }
-                ]
-            },
-            "author_id": "2384778510",
-            "conversation_id": "1294598694847647746",
-            "public_metrics": {
-                "retweet_count": 212,
-                "reply_count": 1,
-                "like_count": 817,
-                "quote_count": 7
-            },
-            "attachments": {
-                "media_keys": [
-                    "3_1294598686761078785"
-                ]
-            }
-        },
-        "includes": {
-            "media": [
-                {
-                    "url": "https://pbs.twimg.com/media/EfdWpYMU0AES-6L.jpg",
-                    "type": "photo",
-                    "height": 576,
-                    "width": 1024,
-                    "media_key": "3_1294598686761078785"
-                }
-            ],
-            "users": [
-                {
-                    "profile_image_url": "https://pbs.twimg.com/profile_images/1225743557283045377/t1nA9Rvy_normal.jpg",
-                    "location": "せりざわーるど",
-                    "verified": true,
-                    "name": "芹澤優(i☆Ris)",
-                    "entities": {
-                        "url": {
-                            "urls": [
-                                {
-                                    "start": 0,
-                                    "end": 23,
-                                    "url": "https://t.co/wiJsk6Kibi",
-                                    "expanded_url": "http://yu-serizawa.com/",
-                                    "display_url": "yu-serizawa.com"
-                                }
-                            ]
-                        },
-                        "description": {
-                            "urls": [
-                                {
-                                    "start": 98,
-                                    "end": 121,
-                                    "url": "https://t.co/KcvkRb7jRp",
-                                    "expanded_url": "https://www.instagram.com/seriko_is_no.1/",
-                                    "display_url": "instagram.com/seriko_is_no.1/"
-                                }
-                            ],
-                            "hashtags": [
-                                {
-                                    "start": 79,
-                                    "end": 85,
-                                    "tag": "セリコソロ"
-                                },
-                                {
-                                    "start": 86,
-                                    "end": 91,
-                                    "tag": "芹澤水産"
-                                }
-                            ]
-                        }
-                    },
-                    "url": "https://t.co/wiJsk6Kibi",
-                    "public_metrics": {
-                        "followers_count": 122490,
-                        "following_count": 812,
-                        "tweet_count": 16759,
-                        "listed_count": 3321
-                    },
-                    "pinned_tweet_id": "1293472403025084417",
-                    "username": "iRis_s_yu",
-                    "id": "2384778510",
-                    "protected": false,
-                    "created_at": "2014-03-12T06:21:37.000Z",
-                    "description": "声優/アイドル/i☆Ris(青)/【群れなせ！シートン学園】メイメイ/【SHOWBYROCK‼︎ ましゅまいれっしゅ‼︎】スモモネ/【プリチャン】赤城あんな/#セリコソロ #芹澤水産 インスタ→ https://t.co/KcvkRb7jRp 海産物が大好きぷり🐟"
-                }
-            ],
-            "tweets": [
-                {
-                    "source": "Twitter for iPhone",
-                    "entities": {
-                        "annotations": [
-                            {
-                                "start": 0,
-                                "end": 26,
-                                "probability": 0.2803,
-                                "type": "Other",
-                                "normalized_text": "Yu Serizawa Online Live ～神"
-                            }
-                        ]
-                    },
-                    "possibly_sensitive": false,
-                    "lang": "ja",
-                    "created_at": "2020-08-15T11:35:18.000Z",
-                    "text": "Yu Serizawa Online Live \n～神×対応×サマーパーティ～\n2部公演衣装投票スタート！！",
-                    "attachments": {
-                        "poll_ids": [
-                            "1294598538370768896"
-                        ]
-                    },
-                    "id": "1294598539436150793",
-                    "author_id": "2384778510",
-                    "conversation_id": "1294598539436150793",
-                    "public_metrics": {
-                        "retweet_count": 154,
-                        "reply_count": 0,
-                        "like_count": 577,
-                        "quote_count": 3
-                    }
-                }
-            ]
-        }
-    }
-
-    console.log(await module.exports(json))
-})()

@@ -1,13 +1,24 @@
 {
   "name": "tweet-json-to-html",
   "version": "1.0.0",
-  "description": "",
+  "description": "tweet-json-to-html converts Twitter API v2 tweet json object into html format.",
+  "keywords": [
+    "twitter",
+    "tweet",
+    "html"
+  ],
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:wdl/tweet-json-to-html.git"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "sijongyeoil <sijongyeoil@gmail.com>",
+  "homepage": "https://github.com/wdl/tweet-json-to-html",
+  "bugs": {
+    "url": "https://github.com/wdl/tweet-json-to-html/issues",
+    "email": "sijongyeoil@gmail.com"
+  },
+  "license": "MIT",
   "dependencies": {
     "html-minifier": "^4.0.0",
     "inline-css": "^2.6.3",

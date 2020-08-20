@@ -11,6 +11,10 @@
             "video": "Show this video",
             "poll": "Show this poll",
             "media": "Show this media"
+        },
+        "poll": {
+            "unit": "%NUM% votes",
+            "closed": "Final results"
         }
     },
     "ko" : {
@@ -25,6 +29,10 @@
             "video": "이 동영상 표시하기",
             "poll": "이 투표 표시하기",
             "media": "이 미디어 표시하기"
+        },
+        "poll": {
+            "unit": "%NUM%표",
+            "closed": "최종 결과"
         }
     },
     "ja" : {
@@ -39,6 +47,10 @@
             "video": "この動画を表示",
             "poll": "この投票を表示",
             "media": "この画像/動画を表示"
+        },
+        "poll": {
+            "unit": "%NUM%票",
+            "closed": "最終結果"
         }
     }
 }
