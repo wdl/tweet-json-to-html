@@ -1,4 +1,5 @@
 const fs = require('fs')
+const path = require('path')
 const inlineCss = require('inline-css')
 const moment = require('moment')
 const sass = require('node-sass')
@@ -8,18 +9,18 @@ module.exports = async (tweet, bg = 'default') => {
     // Localization settings
     const lang = tweet.data.lang
     moment.locale(lang)
-    const locales = JSON.parse(fs.readFileSync('lang.json', 'utf-8'))
+    const locales = JSON.parse(fs.readFileSync(path.join(__dirname, 'lang.json'), 'utf-8'))
     const locale = locales[lang] ? locales[lang] : locales.en
 
     // Preparing the style sheet
-    let style_form = fs.readFileSync('form/style.scss', 'utf-8')
+    let style_form = fs.readFileSync(path.join(__dirname, 'form', 'style.scss'), 'utf-8')
     style_form = style_form.replace('\'%FONT%\'', locale.font)
     style_form = style_form.replace('%BG%', bg)
     const style = sass.renderSync({ data: style_form })
 
     // Loading constant data
-    const verified = fs.readFileSync('form/verified.html', 'utf-8')
-    const play = fs.readFileSync('form/play.html', 'utf-8')
+    const verified = fs.readFileSync(path.join(__dirname, 'form', 'verified.html'), 'utf-8')
+    const play = fs.readFileSync(path.join(__dirname, 'form', 'play.html'), 'utf-8')
 
     // Arranging main tweet data
     const author = tweet.includes.users.find(o => o.id === tweet.data.author_id)
@@ -32,7 +33,7 @@ module.exports = async (tweet, bg = 'default') => {
     const link = `https://twitter.com/${author.username}/status/${tweet.data.id}`
 
     // Loading the main tweet form
-    let main = fs.readFileSync('form/main.html', 'utf-8')
+    let main = fs.readFileSync(path.join(__dirname, 'form', 'main.html'), 'utf-8')
 
     // Filling data in the form
     main = main.replace('%PROFILE_IMAGE%', author.profile_image_url)
@@ -46,7 +47,7 @@ module.exports = async (tweet, bg = 'default') => {
 
     //
     let includes = []
-    let include_form = fs.readFileSync('form/include.html', 'utf-8')
+    let include_form = fs.readFileSync(path.join(__dirname, 'form', 'include.html'), 'utf-8')
 
     // Check if image exists
     if(tweet.includes.media && tweet.includes.media[0].type === 'photo') {
@@ -54,7 +55,7 @@ module.exports = async (tweet, bg = 'default') => {
         const img_cnt = tweet.includes.media.length
 
         // Loading the image form
-        let include_img = fs.readFileSync(`form/include/media/image_${img_cnt}.html`, 'utf-8')
+        let include_img = fs.readFileSync(path.join(__dirname, 'form', 'include', 'media', `image_${img_cnt}.html`), 'utf-8')
 
         // Filling data in the form
         include_img = include_img.replace('%LINK%', link)
@@ -69,7 +70,7 @@ module.exports = async (tweet, bg = 'default') => {
     // Check if video exists
     if(tweet.includes.media && tweet.includes.media[0].type === 'video') {
         // Loading the video form
-        let include_video = fs.readFileSync(`form/include/media/video.html`, 'utf-8')
+        let include_video = fs.readFileSync(path.join(__dirname, 'form', 'include', 'media', 'video.html'), 'utf-8')
 
         // Filling data in the form
         include_video = include_video.replace('%LINK%', link)
@@ -86,8 +87,8 @@ module.exports = async (tweet, bg = 'default') => {
         const poll_status = tweet.includes.polls[0].voting_status
 
         // Loading the poll form
-        let include_poll = fs.readFileSync(`form/include/poll/poll_${poll_status}.html`, 'utf-8')
-        const include_poll_option = fs.readFileSync(`form/include/poll/poll_${poll_status}_option.html`, 'utf-8')
+        let include_poll = fs.readFileSync(path.join(__dirname, 'form', 'include', 'poll', `poll_${poll_status}.html`), 'utf-8')
+        const include_poll_option = fs.readFileSync(path.join(__dirname, 'form', 'include', 'poll', `poll_${poll_status}_option.html`), 'utf-8')
 
         // Arranging poll data
         const option_cnt = tweet.includes.polls[0].options.length
@@ -129,7 +130,7 @@ module.exports = async (tweet, bg = 'default') => {
         const ref_link = `https://twitter.com/${ref_author.username}/status/${ref_tweet.id}`
 
         // Loading the reference tweet form
-        let include_ref = fs.readFileSync('form/include/tweet/tweet.html', 'utf-8')
+        let include_ref = fs.readFileSync(path.join(__dirname, 'form', 'include', 'tweet', 'tweet.html'), 'utf-8')
 
         // Filling data in the form
         include_ref = include_ref.replace('%REF_LINK%', ref_link)
