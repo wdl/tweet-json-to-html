@@ -1,6 +1,6 @@
 {
   "name": "tweet-json-to-html",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "tweet-json-to-html converts Twitter API v2 tweet json object into html format.",
   "keywords": [
     "twitter",
