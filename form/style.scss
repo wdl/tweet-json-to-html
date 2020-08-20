@@ -46,48 +46,50 @@ article.main {
         & > header {
             height: 49px;
             margin: 10px 0 5px 0;
-            & > div {
-                float: left;
-            }
-            & > .profile_image {
-                margin-right: 10px;
-                & > img {
-                    width: 49px;
-                    height: 49px;
-                    border-radius: 50%;
-                }
-            }
-            & > .profile {
-                width: 509px;
+            & > a {
                 & > div {
-                    margin-top: 3.8px;
-                    & > div {
-                        & > div {
-                            display: inline-block;
-                        }
-                        & > .name {
-                            font: {
-                                size: 15px;
-                                weight: bold;
-                            }
-                            color: $text-color;
-                        }
-                        & > .verified {
-                            margin-left: 2px;
-                            vertical-align: text-bottom;
-                            width: 18.75px;
-                            height: 18.75px;
-                            & > svg {
-                                color: if($bg == 'default', $twitter-color, $text-color);
-                                fill: currentcolor;
-                            }
-                        }
+                    float: left;
+                }
+                & > .profile_image {
+                    margin-right: 10px;
+                    & > img {
+                        width: 49px;
+                        height: 49px;
+                        border-radius: 50%;
                     }
-                    & > .username {
-                        font-size: 15px;
-                        font-weight: 400;
-                        color: $info-color;
-                        line-height: 19.3px;
+                }
+                & > .profile {
+                    width: 509px;
+                    & > div {
+                        margin-top: 3.8px;
+                        & > div {
+                            & > div {
+                                display: inline-block;
+                            }
+                            & > .name {
+                                font: {
+                                    size: 15px;
+                                    weight: bold;
+                                }
+                                color: $text-color;
+                            }
+                            & > .verified {
+                                margin-left: 2px;
+                                vertical-align: text-bottom;
+                                width: 18.75px;
+                                height: 18.75px;
+                                & > svg {
+                                    color: if($bg == 'default', $twitter-color, $text-color);
+                                    fill: currentcolor;
+                                }
+                            }
+                        }
+                        & > .username {
+                            font-size: 15px;
+                            font-weight: 400;
+                            color: $info-color;
+                            line-height: 19.3px;
+                        }
                     }
                 }
             }

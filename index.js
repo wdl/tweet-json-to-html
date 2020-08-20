@@ -31,11 +31,13 @@ module.exports = async (tweet, bg = 'default') => {
                                 .replace(/(?<=\s)@([^\s]+)/g, '<a href="https://twitter.com/$1" target="_blank">@$1</a>')
                                 .replace(/\n/g, '<br />')
     const link = `https://twitter.com/${author.username}/status/${tweet.data.id}`
+    const author_link = `https://twitter.com/${author.username}`
 
     // Loading the main tweet form
     let main = fs.readFileSync(path.join(__dirname, 'form', 'main.html'), 'utf-8')
 
     // Filling data in the form
+    main = main.replace('%AUTHOR_LINK%', author_link)
     main = main.replace('%PROFILE_IMAGE%', author.profile_image_url)
     main = main.replace('%NAME%', author.name)
     main = author.verified ? main.replace('%VERIFIED%', verified) : main.replace('%VERIFIED%', '')
