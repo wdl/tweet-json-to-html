@@ -45,8 +45,10 @@ article.main {
         padding: 0 15px;
         & > header {
             height: 49px;
+            width: 100%;
             margin: 10px 0 5px 0;
             & > a {
+                display: inline-flex;
                 & > div {
                     float: left;
                 }
@@ -59,9 +61,8 @@ article.main {
                     }
                 }
                 & > .profile {
-                    width: 509px;
+                    width: auto;
                     & > div {
-                        margin-top: 3.8px;
                         & > div {
                             & > div {
                                 display: inline-block;
@@ -96,7 +97,8 @@ article.main {
         }
         & > main {
             margin-top: 15px;
-            font-size: 23px;
+            font-size: 18px;
+            width: 100%;
             color: $text-color;
             line-height: 1.3125;
             white-space: pre-wrap;
@@ -374,6 +376,7 @@ article.main {
             margin: 15px 0;
             color: $info-color;
             font-size: 15px;
+            width: 100%;
         }
     }
 }
