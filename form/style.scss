@@ -26,9 +26,6 @@ $poll-top-color: rgb(113, 201, 248);
 a {
     color: $href-color;
     text-decoration: none;
-    &:hover {
-        text-decoration: underline;
-    }
 }
 
 article.main {
