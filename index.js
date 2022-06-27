@@ -1,8 +1,8 @@
 const fs = require('fs')
 const path = require('path')
-const inlineCss = require('inline-css')
+const juice = require('juice')
 const moment = require('moment')
-const sass = require('node-sass')
+const sass = require('sass')
 const minify = require('html-minifier').minify
 
 module.exports = async (tweet, bg = 'default') => {
@@ -17,6 +17,7 @@ module.exports = async (tweet, bg = 'default') => {
     style_form = style_form.replace('\'%FONT%\'', locale.font)
     style_form = style_form.replace('%BG%', bg)
     const style = sass.renderSync({ data: style_form })
+    const css = style.css.toString('utf-8')
 
     // Loading constant data
     const verified = fs.readFileSync(path.join(__dirname, 'form', 'verified.html'), 'utf-8')
@@ -165,11 +166,7 @@ module.exports = async (tweet, bg = 'default') => {
     const html_includes = includes.join('')
     main = main.replace('%INCLUDES%', html_includes)
 
-    const html_inline_style = await inlineCss(main, {
-        url: '/',
-        extraCss: style.css,
-        removeHtmlSelectors: true
-    })
+    const html_inline_style = juice(`<style>${css}</style>` + main)
     const html = minify(html_inline_style, {
         collapseWhitespace: true,
         decodeEntities: true,

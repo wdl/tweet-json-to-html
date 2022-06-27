@@ -1,6 +1,6 @@
 {
   "name": "tweet-json-to-html",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "tweet-json-to-html converts Twitter API v2 tweet json object into html format.",
   "keywords": [
     "twitter",
@@ -21,8 +21,8 @@
   "license": "MIT",
   "dependencies": {
     "html-minifier": "^4.0.0",
-    "inline-css": "^2.6.3",
+    "juice": "^8.0.0",
     "moment": "^2.27.0",
-    "node-sass": "^4.14.1"
+    "sass": "^1.53.0"
   }
 }
