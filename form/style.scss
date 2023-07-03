@@ -9,13 +9,16 @@ $info-color: rgb(101, 119, 134);
 $href-color: rgb(27, 149, 224);
 $gray-color: rgb(204, 214, 221);
 $poll-top-color: rgb(113, 201, 248);
-@if $bg == 'dim' {
+
+@if $bg =='dim' {
     $background-color: rgb(21, 32, 43);
     $border-color: rgb(56, 68, 77);
     $text-color: rgb(255, 255, 255);
     $info-color: rgb(136, 153, 166);
     $gray-color: rgb(61, 84, 102);
-} @else if $bg == 'lights-out' {
+}
+
+@else if $bg =='lights-out' {
     $background-color: rgb(0, 0, 0);
     $border-color: rgb(47, 51, 54);
     $text-color: rgba(217, 217, 217, 1.00);
@@ -32,56 +35,70 @@ article.main {
     width: 598px;
     font-family: $font;
     background-color: $background-color;
+
     border: {
         width: 1px;
         style: solid;
         color: $border-color;
     }
-    & > div {
+
+    &>div {
         width: 568px;
         padding: 0 15px;
-        & > header {
+
+        &>header {
             height: 49px;
             margin: 10px 0 5px 0;
-            & > a {
-                & > div {
+
+            &>a {
+                &>div {
                     float: left;
                 }
-                & > .profile_image {
+
+                &>.profile_image {
                     margin-right: 10px;
-                    & > img {
+
+                    &>img {
                         width: 49px;
                         height: 49px;
                         border-radius: 50%;
                     }
                 }
-                & > .profile {
+
+                &>.profile {
                     width: 509px;
-                    & > div {
+
+                    &>div {
                         margin-top: 3.8px;
-                        & > div {
-                            & > div {
+
+                        &>div {
+                            &>div {
                                 display: inline-block;
                             }
-                            & > .name {
+
+                            &>.name {
                                 font: {
                                     size: 15px;
                                     weight: bold;
                                 }
+
                                 color: $text-color;
                             }
-                            & > .verified {
+
+                            &>.verified {
                                 margin-left: 2px;
                                 vertical-align: text-bottom;
                                 width: 18.75px;
                                 height: 18.75px;
-                                & > svg {
-                                    color: if($bg == 'default', $twitter-color, $text-color);
+
+                                &>svg {
+                                    color: if($bg =='default', $twitter-color, $text-color);
                                     fill: currentcolor;
                                 }
                             }
                         }
-                        & > .username {
+
+                        &>.username {
                             font-size: 15px;
                             font-weight: 400;
                             color: $info-color;
@@ -91,43 +108,54 @@ article.main {
                 }
             }
         }
-        & > main {
+
+        &>main {
             margin-top: 15px;
             font-size: 23px;
             color: $text-color;
             line-height: 1.3125;
             white-space: pre-wrap;
         }
-        & > article.include {
+
+        &>article.include {
             width: 566px;
             margin-top: 10px;
+
             border: {
                 width: 1px;
                 style: solid;
                 color: $gray-color;
                 radius: 15px;
             }
+
             overflow: hidden;
-            & > * {
+
+            &>* {
                 vertical-align: bottom;
             }
-            & > .image_1 {
+
+            &>.image_1 {
                 display: block;
-                & > img {
+
+                &>img {
                     width: 100%;
                     vertical-align: bottom;
                 }
             }
-            & > .image_2 {
+
+            &>.image_2 {
                 display: block;
                 height: 318.375px;
-                & > div {
+
+                &>div {
                     width: 282px;
                     height: 100%;
                     display: inline-block;
+
                     &:first-child {
                         margin-right: 2px;
                     }
+
                     & img {
                         width: 100%;
                         height: 100%;
@@ -137,26 +165,32 @@ article.main {
                     }
                 }
             }
-            & > .image_3 {
+
+            &>.image_3 {
                 display: block;
                 height: 318.375px;
-                & > div {
+
+                &>div {
                     width: 282px;
                     height: 100%;
                     display: inline-block;
+
                     &:first-child {
                         margin-right: 2px;
                     }
+
                     &:last-child {
-                        & > div {
+                        &>div {
                             width: 100%;
                             height: calc(50% - 1px);
                             display: inline-block;
                         }
-                        & > div:first-child {
+
+                        &>div:first-child {
                             margin-bottom: 2px;
                         }
                     }
+
                     & img {
                         width: 100%;
                         height: 100%;
@@ -166,34 +200,42 @@ article.main {
                     }
                 }
             }
-            & > .image_4 {
+
+            &>.image_4 {
                 display: block;
                 height: 318.375px;
-                & > div {
+
+                &>div {
                     width: 282px;
                     height: 100%;
                     display: inline-block;
+
                     &:first-child {
                         margin-right: 2px;
-                        & > div {
+
+                        &>div {
                             width: 100%;
                             height: calc(50% - 1px);
                             display: inline-block;
                         }
-                        & > div:first-child {
+
+                        &>div:first-child {
                             margin-bottom: 2px;
                         }
                     }
+
                     &:last-child {
-                        & > div {
+                        &>div {
                             width: 100%;
                             height: calc(50% - 1px);
                             display: inline-block;
                         }
-                        & > div:first-child {
+
+                        &>div:first-child {
                             margin-bottom: 2px;
                         }
                     }
+
                     & img {
                         width: 100%;
                         height: 100%;
@@ -203,142 +245,175 @@ article.main {
                     }
                 }
             }
-            & > .video {
+
+            &>.video {
                 display: block;
                 position: relative;
-                & > img {
+
+                &>img {
                     width: 100%;
                     vertical-align: bottom;
                 }
-                & > .play {
+
+                &>.play {
                     position: absolute;
                     top: 50%;
                     left: 50%;
                     transform: translate(-50%, -50%);
                 }
             }
-            & > .tweet {
+
+            &>.tweet {
                 display: block;
                 padding: 10px;
-                & > header {
+
+                &>header {
                     height: 20px;
-                    & > div {
+
+                    &>div {
                         float: left;
                     }
-                    & > .profile_image {
+
+                    &>.profile_image {
                         margin-right: 5px;
-                        & > img {
+
+                        &>img {
                             width: 20px;
                             height: 20px;
                             border-radius: 50%;
                         }
                     }
-                    & > .profile {
-                        & > div {
+
+                    &>.profile {
+                        &>div {
                             float: left;
                         }
-                        & > .name {
+
+                        &>.name {
                             font-size: 15px;
                             font-weight: bold;
                             color: $text-color;
                         }
-                        & > .verified {
+
+                        &>.verified {
                             margin-left: 2px;
                             vertical-align: text-bottom;
                             width: 18.75px;
                             height: 18.75px;
-                            & > svg {
+
+                            &>svg {
                                 color: $twitter-color;
                                 fill: currentcolor;
                             }
                         }
-                        & > .username {
+
+                        &>.username {
                             font-size: 15px;
                             margin-left: 5px;
                             color: $info-color;
                         }
-                        & > .date {
+
+                        &>.date {
                             font-size: 15px;
                             color: $info-color;
                         }
                     }
                 }
-                & > main {
+
+                &>main {
                     margin-top: 5px;
                     font-size: 15px;
                     color: $text-color;
                     line-height: 1.3125;
                     white-space: pre-wrap;
-                    & > footer {
+
+                    &>footer {
                         color: $href-color;
                         margin-top: 5px;
                     }
                 }
             }
         }
-        & > article.poll_open {
+
+        &>article.poll_open {
             width: 568px;
             margin-top: 10px;
-            & > a {
+
+            &>a {
                 display: block;
                 width: 536px;
                 height: 20px;
                 padding: 4px 15px;
+
                 border: {
                     style: solid;
                     color: $twitter-color;
                     width: 1px;
                     radius: 14px;
                 }
+
                 font: {
                     weight: bold;
                     size: 15px;
                 }
+
                 text-align: center;
                 color: $twitter-color;
                 margin-top: 5px;
+
                 &:first-child {
                     margin-top: 0;
                 }
             }
-            & > div {
+
+            &>div {
                 margin-top: 10px;
                 font-size: 15px;
                 color: $info-color;
             }
         }
-        & > article.poll_closed {
+
+        &>article.poll_closed {
             width: 568px;
             margin-top: 10px;
-            & > a {
+
+            &>a {
                 display: block;
                 position: relative;
                 height: 30px;
                 margin-top: 5px;
+
                 &:first-child {
                     margin-top: 0;
                 }
-                & > div.label {
+
+                &>div.label {
                     position: absolute;
                     top: 5px;
                     left: 10px;
+
                     font: {
                         size: 15px;
                     }
+
                     color: $text-color;
                     z-index: 10;
                 }
-                & > div.percent {
+
+                &>div.percent {
                     position: absolute;
                     top: 5px;
                     right: 0px;
+
                     font: {
                         size: 15px;
                     }
+
                     color: $text-color;
                     z-index: 10;
                 }
-                & > div.bg {
+
+                &>div.bg {
                     height: 30px;
                     position: absolute;
                     border-radius: 5px;
@@ -346,28 +421,33 @@ article.main {
                     z-index: 0;
                 }
             }
-            & > a.top {
-                & > div.label {
+
+            &>a.top {
+                &>div.label {
                     font: {
                         weight: bold;
                     }
                 }
-                & > div.percent {
+
+                &>div.percent {
                     font: {
                         weight: bold;
                     }
                 }
-                & > div.bg {
+
+                &>div.bg {
                     background-color: $poll-top-color;
                 }
             }
-            & > div {
+
+            &>div {
                 margin-top: 10px;
                 font-size: 15px;
                 color: $info-color;
             }
         }
-        & > footer {
+
+        &>footer {
             margin: 15px 0;
             color: $info-color;
             font-size: 15px;
